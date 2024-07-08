@@ -5,10 +5,24 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gabriel-jm/clone-tabnews/src/db"
 	"github.com/gabriel-jm/clone-tabnews/src/status"
 )
 
+const query string = `
+	CREATE TABLE IF NOT EXISTS person (
+    first_name text,
+    last_name text,
+    email text
+	);
+`
+
 func main() {
+	db.Init()
+	defer db.Conn.Close()
+
+	db.Conn.MustExec(query)
+
 	mainMux := http.NewServeMux()
 
 	statusMux := http.NewServeMux()
