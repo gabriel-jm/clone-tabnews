@@ -7,6 +7,7 @@ import (
 
 	"github.com/gabriel-jm/clone-tabnews/src/db"
 	"github.com/gabriel-jm/clone-tabnews/src/status"
+	"github.com/joho/godotenv"
 )
 
 const query string = `
@@ -18,6 +19,12 @@ const query string = `
 `
 
 func main() {
+	loadEnvErr := godotenv.Load(".env")
+
+	if loadEnvErr != nil {
+		log.Fatalln("Error loading env file:", loadEnvErr)
+	}
+
 	db.Init()
 	defer db.Conn.Close()
 

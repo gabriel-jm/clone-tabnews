@@ -1,6 +1,8 @@
 package db
 
 import (
+	"os"
+
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
@@ -8,7 +10,7 @@ import (
 var Conn *sqlx.DB
 
 func Init() {
-	connectionString := "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+	connectionString := os.Getenv("DB_URL")
 
 	conn, err := sqlx.Connect("postgres", connectionString)
 
