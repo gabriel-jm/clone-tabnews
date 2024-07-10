@@ -1,12 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/gabriel-jm/clone-tabnews/src/db"
-	"github.com/gabriel-jm/clone-tabnews/src/status"
+	"github.com/gabriel-jm/clone-tabnews/src/server"
 	"github.com/joho/godotenv"
 )
 
@@ -30,15 +29,9 @@ func main() {
 
 	db.Conn.MustExec(query)
 
-	mainMux := http.NewServeMux()
-
-	statusMux := http.NewServeMux()
-	statusMux.HandleFunc("/status", status.GetStatus)
-
-	mainMux.Handle("/api/v1/", http.StripPrefix("/api/v1", statusMux))
-
-	fmt.Println("Server Running")
-	var serverErr = http.ListenAndServe(":8000", mainMux)
+	serverMux := server.SetupServer()
+	println("Server Running")
+	var serverErr = http.ListenAndServe(":8000", serverMux)
 
 	if serverErr != nil {
 		log.Fatal(serverErr)

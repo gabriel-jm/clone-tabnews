@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "dev": "go run ./src",
+    "test:int": "ginkgo ./tests/integration/..."
+  }
+}
